@@ -1,2 +1,2 @@
-# java-vtl-connectors
-A collection of connectors implemented for java-vtl
+# java-vtl-tools
+A collection of tools for Java VTL.
