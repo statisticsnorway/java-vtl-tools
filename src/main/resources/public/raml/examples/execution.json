@@ -1,0 +1,21 @@
+{
+  "expression":"b := a[rename a as b]",
+  "datasets":[{
+    "name":"a",
+    "structure":[{
+        "name":"a",
+        "role":"IDENTIFIER",
+        "type":"java.lang.String"
+      }]
+  },{
+    "name":"b",
+    "structure":[{
+        "name":"a",
+        "role":"IDENTIFIER",
+        "type":"java.lang.String"
+      }],
+    "data": [
+      ["1"], ["2"],["3"]
+    ]
+  }]
+}

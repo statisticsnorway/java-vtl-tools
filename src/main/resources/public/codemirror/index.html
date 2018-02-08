@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+  ========================LICENSE_START=================================
+  Java VTL
+  %%
+  Copyright (C) 2016 - 2017 Hadrien Kohl
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  =========================LICENSE_END==================================
+  -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java VTL editor</title>
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/codemirror.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/addon/lint/lint.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/addon/mode/simple.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.1/fetch.js"></script>
+<script src="vtl-mode.js"></script>
+<script src="vtl-lint.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/codemirror.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.21.0/addon/lint/lint.css">
+
+<body>
+<form>
+    <textarea id="code" name="code" style="margin-top: 0px; margin-bottom: 0px; height: 44px;">
+        Type some VTL here.
+    </textarea>
+</form>
+<script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        mode: "vtl",
+        gutters: ["CodeMirror-lint-markers"],
+        lint: {
+            async: true
+        }
+    });
+</script>
+</textarea>
+</body>
+</html>

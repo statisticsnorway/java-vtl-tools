@@ -1,0 +1,95 @@
+#%RAML 1.0
+title: VTL tools
+version: v1
+baseUri: http://localhost:8080/
+# /api/{version}/
+types:
+  Dataset:
+    type: object
+    properties:
+      name: string
+      structure: Component[]
+      data?: array[]
+
+  Error:
+    type: object
+    properties:
+      message: string
+      stackTrace: string
+
+  SyntaxError:
+    type: object
+    properties:
+      startLine: number
+      stopLine: number
+      startColumn: number
+      stopColumn: number
+      message: string
+
+  Structure: Component[]
+
+  Component:
+    type: object
+    properties:
+      name: string
+      role: string
+      type: string
+
+  Execution:
+    type: object
+    properties:
+      expression: string
+      datasets: Dataset[]
+
+  Result:
+    type: object
+    properties:
+      datasets: Dataset[]
+
+/validate:
+  description: validate the syntax of a VTL expression
+  post:
+    body:
+      application/vtl:
+        type: string
+    responses:
+      200:
+        body:
+          application/json:
+            type: SyntaxError[]
+      204:
+
+/execute:
+  post:
+    body:
+      application/vtl:
+        type: string
+    responses:
+      200:
+        body:
+          application/json: string[]
+      400:
+        body:
+          application/json:
+            type: Error
+
+/execute2:
+  description: |
+    Execute a VTL expression, setting up the variables first. The data part of
+    the dataset is optional.
+  post:
+    responses:
+      200:
+        body:
+          application/json:
+            type: Result
+            example: !include examples/result.json
+      400:
+        body:
+          application/json:
+            type: Error
+            example: !include examples/error.json
+    body:
+      application/json:
+        type: Execution
+        example: !include examples/execution.json

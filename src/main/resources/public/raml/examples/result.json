@@ -1,0 +1,19 @@
+{
+  "datasets": [{
+      "name": "a",
+      "structure": [{
+        "name": "a",
+        "role": "IDENTIFIER",
+        "type": "java.lang.String"
+      }],
+      "data": []
+    },{
+      "name": "b",
+      "structure": [{
+        "name": "b",
+        "role": "IDENTIFIER",
+        "type": "java.lang.String"
+      }],
+      "data": []
+    }]
+}
