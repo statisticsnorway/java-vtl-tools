@@ -6,7 +6,7 @@
 
     <groupId>no.ssb.vtl</groupId>
     <artifactId>java-vtl-tools</artifactId>
-    <version>0.1.6</version>
+    <version>0.1.7-SNAPSHOT</version>
 
     <name>Java VTL tools</name>
 
