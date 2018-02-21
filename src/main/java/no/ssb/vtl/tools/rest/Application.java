@@ -94,10 +94,11 @@ public class Application {
 
         connectors.add(new SsbApiConnector(new ObjectMapper()));
         connectors.add(new SsbKlassApiConnector(new ObjectMapper(), SsbKlassApiConnector.PeriodType.YEAR));
-        connectors.add(getKompisConnector(mapper));
         if (!StringUtils.isEmpty(pxApiBaseUrl)) {
             connectors.add(new PxApiConnector(pxApiBaseUrl));
         }
+
+        connectors.add(getKompisConnector(mapper));
 
         // Setup timeout.
         connectors = Lists.transform(connectors, c -> TimeoutConnector.create(c, 100, TimeUnit.SECONDS));
