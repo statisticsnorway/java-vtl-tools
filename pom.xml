@@ -6,7 +6,7 @@
 
     <groupId>no.ssb.vtl</groupId>
     <artifactId>java-vtl-tools</artifactId>
-    <version>0.1.6</version>
+    <version>0.1.7</version>
 
     <name>Java VTL tools</name>
 
@@ -101,19 +101,25 @@
         <dependency>
             <groupId>no.ssb.vtl.connectors</groupId>
             <artifactId>ssb-connector</artifactId>
-            <version>0.1.8</version>
+            <version>0.1.9</version>
         </dependency>
 
         <dependency>
             <groupId>no.ssb.vtl.connectors</groupId>
             <artifactId>spring-connector</artifactId>
-            <version>0.1.8</version>
+            <version>0.1.9</version>
         </dependency>
 
         <dependency>
             <groupId>no.ssb.vtl.connectors</groupId>
             <artifactId>utils</artifactId>
-            <version>0.1.8</version>
+            <version>0.1.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>

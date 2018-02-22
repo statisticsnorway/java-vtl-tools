@@ -38,7 +38,6 @@ import no.ssb.vtl.connectors.utils.CachedConnector;
 import no.ssb.vtl.connectors.utils.RegexConnector;
 import no.ssb.vtl.connectors.utils.TimeoutConnector;
 import no.ssb.vtl.script.VTLScriptEngine;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -49,7 +48,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -62,7 +60,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.MoreObjects.*;
 
 /**
  * Spring application
@@ -76,15 +74,12 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 @EnableCaching
 public class Application {
 
-    @Value("${pxApi.baseUrl}")
-    private String pxApiBaseUrl;
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
     @Bean
-    List<Connector> getConnectors(ObjectMapper mapper) {
+    List<Connector> getConnectors(ObjectMapper mapper, PxApiConnectorConfiguration pxApiConnectorConfiguration) {
 
         List<Connector> connectors = Lists.newArrayList();
         ServiceLoader<Connector> loader = ServiceLoader.load(Connector.class);
@@ -94,8 +89,8 @@ public class Application {
 
         connectors.add(new SsbApiConnector(new ObjectMapper()));
         connectors.add(new SsbKlassApiConnector(new ObjectMapper(), SsbKlassApiConnector.PeriodType.YEAR));
-        if (!StringUtils.isEmpty(pxApiBaseUrl)) {
-            connectors.add(new PxApiConnector(pxApiBaseUrl));
+        if (pxApiConnectorConfiguration.getBaseUrls() != null && pxApiConnectorConfiguration.getBaseUrls().size() > 0) {
+            connectors.add(new PxApiConnector(pxApiConnectorConfiguration.getBaseUrls()));
         }
 
         connectors.add(getKompisConnector(mapper));
