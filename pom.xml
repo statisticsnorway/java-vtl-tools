@@ -95,25 +95,25 @@
         <dependency>
             <groupId>no.ssb.vtl</groupId>
             <artifactId>java-vtl-script</artifactId>
-            <version>0.1.8-SNAPSHOT</version>
+            <version>0.1.9-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>no.ssb.vtl.connectors</groupId>
             <artifactId>ssb-connector</artifactId>
-            <version>0.1.11-SNAPSHOT</version>
+            <version>0.1.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>no.ssb.vtl.connectors</groupId>
             <artifactId>spring-connector</artifactId>
-            <version>0.1.11-SNAPSHOT</version>
+            <version>0.1.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>no.ssb.vtl.connectors</groupId>
             <artifactId>utils</artifactId>
-            <version>0.1.11-SNAPSHOT</version>
+            <version>0.1.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
