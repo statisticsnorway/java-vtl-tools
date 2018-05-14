@@ -48,6 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.script.Bindings;
 import javax.script.ScriptException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -141,6 +142,10 @@ public class ValidatorController {
             @RequestBody(required = false) String expression
     ) throws IOException, ScriptException {
         if (expression != null && !"".equals(expression)) {
+            ArrayList<SyntaxErrorRepresentation> validate = Lists.newArrayList(validate(expression));if (!validate.isEmpty()) {
+                return validate;
+            }
+
             try {
                 Bindings emptyBindings = engine.createBindings();
                 engine.eval(expression, emptyBindings);
