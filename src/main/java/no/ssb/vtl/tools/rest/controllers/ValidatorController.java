@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.script.Bindings;
 import javax.script.ScriptException;
 import java.io.IOException;
 import java.util.Collections;
@@ -141,7 +142,8 @@ public class ValidatorController {
     ) throws IOException, ScriptException {
         if (expression != null && !"".equals(expression)) {
             try {
-                engine.eval(expression);
+                Bindings emptyBindings = engine.createBindings();
+                engine.eval(expression, emptyBindings);
             } catch (VTLCompileException vce) {
                 return vce.getErrors()
                         .stream()
