@@ -71,7 +71,7 @@ public class ExecutorController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Object execute(@RequestBody ExecutionRepresentation execution) throws ScriptException {
+    public ResultRepresentation execute(@RequestBody ExecutionRepresentation execution) throws ScriptException {
 
         Bindings bindings = vtlEngine.createBindings();
 
