@@ -139,7 +139,7 @@ public class Application {
 
         // TODO: Remove when old API is deprecated.
         return RegexConnector.create(restTemplateConnector,
-                Pattern.compile("(?<host>(?:http|https)://.*?)/api/data/(?<id>.*)/latest(?<param>[?|#].*)"),
+                Pattern.compile("(?<host>(?:http|https)://.*?)/api/data/(?<id>.*)/latest(?<param>[?|#].*)?"),
                 "${host}/api/v3/data/${id}${param}"
         );
     }
