@@ -59,6 +59,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.MoreObjects.*;
 
@@ -96,14 +97,18 @@ public class Application {
         connectors.add(getKompisConnector(mapper));
 
         // Setup timeout.
-        connectors = Lists.transform(connectors, c -> TimeoutConnector.create(c, 100, TimeUnit.SECONDS));
+        connectors = connectors.stream()
+                .map(c -> TimeoutConnector.create(c, 100, TimeUnit.SECONDS))
+                .collect(Collectors.toList());
 
         CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
-                .expireAfterAccess(10, TimeUnit.MINUTES)
-                .maximumSize(100);
+                .expireAfterAccess(1, TimeUnit.MINUTES)
+                .maximumSize(1000);
 
-
-        connectors = Lists.transform(connectors, c -> CachedConnector.create(c, cacheBuilder));
+        // Wrap all connectors with cache.
+        connectors = connectors.stream()
+                .map(c -> CachedConnector.create(c, cacheBuilder))
+                .collect(Collectors.toList());
 
         return connectors;
     }
