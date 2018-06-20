@@ -9,9 +9,9 @@ package no.ssb.vtl.tools.rest.controllers;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,11 +21,14 @@ package no.ssb.vtl.tools.rest.controllers;
  */
 
 import com.google.common.collect.Lists;
+import no.ssb.vtl.model.DataStructure;
+import no.ssb.vtl.model.Dataset;
 import no.ssb.vtl.parser.VTLLexer;
 import no.ssb.vtl.parser.VTLParser;
 import no.ssb.vtl.script.VTLScriptEngine;
 import no.ssb.vtl.script.error.VTLCompileException;
 import no.ssb.vtl.script.error.VTLScriptException;
+import no.ssb.vtl.tools.rest.representations.BindingsRepresentation;
 import no.ssb.vtl.tools.rest.representations.SyntaxErrorRepresentation;
 import no.ssb.vtl.tools.rest.representations.ThrowableRepresentation;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -45,10 +48,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.script.Bindings;
 import javax.script.ScriptException;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -70,10 +75,69 @@ public class ValidatorController {
         this.engine = checkNotNull(engine);
     }
 
+    private static SyntaxErrorRepresentation convertToSyntaxError(VTLScriptException exception) {
+        return new SyntaxErrorRepresentation(
+                exception.getStartLine(),
+                exception.getStopLine(),
+                exception.getStartColumn(),
+                exception.getStopColumn(),
+                exception.getMessage(),
+                null
+        );
+    }
+
     @ExceptionHandler
     @ResponseStatus()
     public Object handleError(Throwable t) {
         return new ThrowableRepresentation(t);
+    }
+
+    /**
+     * Expose bindings after executing the expression
+     */
+    @RequestMapping(
+            path = "/bindings",
+            method = RequestMethod.POST,
+            consumes = {
+                    MediaType.ALL_VALUE,
+                    MediaType.TEXT_PLAIN_VALUE
+            }
+    )
+    @Cacheable(cacheNames = "bindings", key = "@hasher.apply(#expression)")
+    public List<BindingsRepresentation> variables(
+            @RequestBody(required = false) String expression
+    ) {
+        Bindings bindings = engine.createBindings();
+        if (expression != null && !"".equals(expression)) {
+            try {
+                engine.eval(expression, bindings);
+            } catch (ScriptException se) {
+                // Ignore.
+            }
+        }
+        List<BindingsRepresentation> result = Lists.newArrayList();
+        for (String name : bindings.keySet()) {
+            BindingsRepresentation representation = new BindingsRepresentation();
+            representation.setName(name);
+            Object object = bindings.get(name);
+            if (object instanceof Dataset) {
+                ArrayList<BindingsRepresentation> children = Lists.newArrayList();
+                DataStructure structure = ((Dataset) object).getDataStructure();
+                for (String column : structure.keySet()) {
+                    BindingsRepresentation columnRepresentation = new BindingsRepresentation();
+                    columnRepresentation.setName(column);
+                    columnRepresentation.setRole(structure.get(column).getRole());
+                    columnRepresentation.setType(structure.get(column).getType());
+                    children.add(columnRepresentation);
+                }
+                representation.setChildren(children);
+            } else {
+                Optional<Class<?>> clazz = Optional.ofNullable(object).map(Object::getClass);
+                representation.setType(clazz.orElse(Object.class));
+            }
+            result.add(representation);
+        }
+        return result;
     }
 
     /**
@@ -90,7 +154,7 @@ public class ValidatorController {
     @Cacheable(cacheNames = "validations", key = "@hasher.apply(#expression)")
     public List<SyntaxErrorRepresentation> validate(
             @RequestBody(required = false) String expression
-    ) throws IOException, ScriptException {
+    ) {
         if (expression != null && !"".equals(expression)) {
 
             // OSB: ANTLRInputStream is deprecated but still contains a bug
@@ -113,17 +177,6 @@ public class ValidatorController {
         return Collections.emptyList();
     }
 
-    private static SyntaxErrorRepresentation convertToSyntaxError(VTLScriptException exception) {
-        return new SyntaxErrorRepresentation(
-                            exception.getStartLine(),
-                            exception.getStopLine(),
-                            exception.getStartColumn(),
-                            exception.getStopColumn(),
-                            exception.getMessage(),
-                            null
-                    );
-    }
-
     /**
      * Check a VTL Expression
      */
@@ -138,10 +191,16 @@ public class ValidatorController {
     @Cacheable(cacheNames = "checks", key = "@hasher.apply(#expression)")
     public List<SyntaxErrorRepresentation> check(
             @RequestBody(required = false) String expression
-    ) throws IOException, ScriptException {
+    ) throws ScriptException {
         if (expression != null && !"".equals(expression)) {
+            ArrayList<SyntaxErrorRepresentation> validate = Lists.newArrayList(validate(expression));
+            if (!validate.isEmpty()) {
+                return validate;
+            }
+
             try {
-                engine.eval(expression);
+                Bindings emptyBindings = engine.createBindings();
+                engine.eval(expression, emptyBindings);
             } catch (VTLCompileException vce) {
                 return vce.getErrors()
                         .stream()

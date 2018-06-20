@@ -3,3 +3,9 @@ pxApi.baseUrls: #[
           #'http://beta-data.ssb.no/api/v0/no/table/',
           #'http://data.ssb.no/api/v0/no/table/'
           #]
+
+logging:
+  file: data-service.log
+  level:
+    'no.ssb': debug
+    'org.springframework.web.client': debug

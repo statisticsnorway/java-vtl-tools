@@ -9,9 +9,9 @@ package no.ssb.vtl.tools.rest.controllers;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,6 @@ package no.ssb.vtl.tools.rest.controllers;
  */
 
 import com.google.common.collect.Maps;
-import no.ssb.vtl.model.Component;
 import no.ssb.vtl.model.DataStructure;
 import no.ssb.vtl.model.Dataset;
 import no.ssb.vtl.model.VTLObject;
@@ -43,6 +42,7 @@ import javax.script.ScriptException;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -113,14 +113,14 @@ public class UserExecutorController {
     public Iterable<Map<String, Object>> getData(@PathVariable String id) {
         final Dataset dataset = (Dataset) bindings.get(id);
         DataStructure structure = dataset.getDataStructure();
-        return () -> {
-            return dataset.getData().map(dataPoints -> {
-                Map<String, Object> map = Maps.newLinkedHashMap();
-                for (Map.Entry<Component, VTLObject> entry : structure.asMap(dataPoints).entrySet()) {
-                    map.put(structure.getName(entry.getKey()), entry.getValue().get());
-                }
-                return map;
-            }).iterator();
-        };
+        Map<String, Object> map = Maps.newLinkedHashMap();
+        return () -> dataset.getData().map(dataPoints -> {
+            map.clear();
+            Iterator<VTLObject> iterator = dataPoints.iterator();
+            for (String name : structure.keySet()) {
+                map.put(name, iterator.next().get());
+            }
+            return map;
+        }).iterator();
     }
 }
