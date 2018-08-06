@@ -51,9 +51,14 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.script.Bindings;
 import javax.script.ScriptException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -209,6 +214,18 @@ public class ValidatorController {
             }
         }
         return Collections.emptyList();
+    }
+
+    /**
+     * @return a collection of all keywords / reserved words
+     */
+    @RequestMapping(
+            path = "/keywords",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public Map<String, Set<String>> getKeywords() {
+        return engine.getVTLKeywords();
     }
 
     /**
