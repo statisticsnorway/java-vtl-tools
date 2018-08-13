@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@ConfigurationProperties(prefix="pxApi")
+@ConfigurationProperties(prefix="px-api")
 public class PxApiConnectorConfiguration {
 
     private List<String> baseUrls;

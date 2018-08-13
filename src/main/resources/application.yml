@@ -1,5 +1,6 @@
 #Set as appropriate on your instance. Left blank will disable the px-api connector
-pxApi.baseUrls: #[
+px-api:
+  base-urls: #[
           #'http://beta-data.ssb.no/api/v0/no/table/',
           #'http://data.ssb.no/api/v0/no/table/'
           #]

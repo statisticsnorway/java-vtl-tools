@@ -39,9 +39,7 @@ import no.ssb.vtl.connectors.utils.RegexConnector;
 import no.ssb.vtl.connectors.utils.TimeoutConnector;
 import no.ssb.vtl.script.VTLScriptEngine;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
@@ -66,12 +64,7 @@ import static com.google.common.base.MoreObjects.*;
 /**
  * Spring application
  */
-@SpringBootApplication(
-        exclude = {
-                SecurityAutoConfiguration.class,
-                ManagementWebSecurityAutoConfiguration.class
-        }
-)
+@SpringBootApplication
 @EnableCaching
 public class Application {
 
