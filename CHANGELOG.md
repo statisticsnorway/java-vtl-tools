@@ -2,6 +2,8 @@
 
 ## develop
 
+* Expose the list of VTL keywords at the endpoint `/keywords`
+
 ### Added
 
 ### Changed
