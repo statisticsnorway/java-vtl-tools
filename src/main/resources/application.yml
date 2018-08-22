@@ -6,7 +6,6 @@ px-api:
           #]
 
 logging:
-  file: data-service.log
   level:
     'no.ssb': debug
     'org.springframework.web.client': debug
