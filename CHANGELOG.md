@@ -4,7 +4,14 @@
 
 ### Added
 
+* Prometheus endpoint
+* Expose the list of VTL keywords at the endpoint `/keywords`
+
 ### Changed
+
+* Update connector versions
+* Remove log file
+* Update to spring-boot 2
 
 ## 0.1.9 - 2018-06-20
 
