@@ -21,6 +21,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <oss.skipsign>true</oss.skipsign>
+        <vtlVersion>0.1.10-SNAPSHOT</vtlVersion>
+        <vtlConnectorVersion>0.1.13-SNAPSHOT</vtlConnectorVersion>
     </properties>
 
     <developers>
@@ -95,25 +97,25 @@
         <dependency>
             <groupId>no.ssb.vtl</groupId>
             <artifactId>java-vtl-script</artifactId>
-            <version>0.1.10-SNAPSHOT</version>
+            <version>${vtlVersion}</version>
         </dependency>
 
         <dependency>
             <groupId>no.ssb.vtl.connectors</groupId>
             <artifactId>ssb-connector</artifactId>
-            <version>0.1.13-SNAPSHOT</version>
+            <version>${vtlConnectorVersion}</version>
         </dependency>
 
         <dependency>
             <groupId>no.ssb.vtl.connectors</groupId>
             <artifactId>spring-connector</artifactId>
-            <version>0.1.13-SNAPSHOT</version>
+            <version>${vtlConnectorVersion}</version>
         </dependency>
 
         <dependency>
             <groupId>no.ssb.vtl.connectors</groupId>
             <artifactId>utils</artifactId>
-            <version>0.1.13-SNAPSHOT</version>
+            <version>${vtlConnectorVersion}</version>
         </dependency>
 
         <dependency>
