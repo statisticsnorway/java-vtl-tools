@@ -2,6 +2,18 @@
 
 ## develop
 
+## 0.1.10-1 - 2018-09-04
+
+### Changed
+
+* Update VTL version to 0.1.10-2
+
+## 0.1.10 - 2018-08-31
+
+### Changed
+
+* Update VTL version to 0.1.10
+
 ### Added
 
 * Prometheus endpoint
