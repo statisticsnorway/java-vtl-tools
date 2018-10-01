@@ -12,6 +12,5 @@ logging:
 
 connectors:
   # Enable or disable connector caching.
-  caching: false
-
+  caching: true
 

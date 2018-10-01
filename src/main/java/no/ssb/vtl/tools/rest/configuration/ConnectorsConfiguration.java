@@ -29,7 +29,7 @@ public class ConnectorsConfiguration {
 
     private Boolean caching = false;
 
-    public Boolean getCaching() {
+    public Boolean isCachingEnabled() {
         return caching;
     }
 

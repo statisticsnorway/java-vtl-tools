@@ -107,7 +107,7 @@ public class Application {
                 .collect(Collectors.toList());
 
         // Wrap all connectors with cache.
-        if (connectorsConfiguration.getCaching()) {
+        if (connectorsConfiguration.isCachingEnabled()) {
             log.info("enabling connector caching");
             CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
                     .expireAfterAccess(1, TimeUnit.MINUTES)
