@@ -1,11 +1,17 @@
 #Set as appropriate on your instance. Left blank will disable the px-api connector
 px-api:
   base-urls: #[
-          #'http://beta-data.ssb.no/api/v0/no/table/',
-          #'http://data.ssb.no/api/v0/no/table/'
-          #]
+  #'http://beta-data.ssb.no/api/v0/no/table/',
+  #'http://data.ssb.no/api/v0/no/table/'
+  #]
 
 logging:
   level:
     'no.ssb': debug
     'org.springframework.web.client': debug
+
+connectors:
+  # Enable or disable connector caching.
+  caching: false
+
+
