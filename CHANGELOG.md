@@ -2,6 +2,10 @@
 
 ## develop
 
+### Added
+
+* Configuration flag to disable/enable caching
+
 ## 0.1.10-1 - 2018-09-04
 
 ### Changed
