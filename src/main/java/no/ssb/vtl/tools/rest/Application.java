@@ -9,9 +9,9 @@ package no.ssb.vtl.tools.rest;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,7 +37,12 @@ import no.ssb.vtl.connectors.spring.converters.DatasetHttpMessageConverter;
 import no.ssb.vtl.connectors.utils.CachedConnector;
 import no.ssb.vtl.connectors.utils.RegexConnector;
 import no.ssb.vtl.connectors.utils.TimeoutConnector;
+import no.ssb.vtl.script.VTLScriptContext;
 import no.ssb.vtl.script.VTLScriptEngine;
+import no.ssb.vtl.tools.rest.configuration.ConnectorsConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -59,7 +64,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.google.common.base.MoreObjects.*;
+import static com.google.common.base.MoreObjects.firstNonNull;
 
 /**
  * Spring application
@@ -68,12 +73,19 @@ import static com.google.common.base.MoreObjects.*;
 @EnableCaching
 public class Application {
 
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
     @Bean
-    List<Connector> getConnectors(ObjectMapper mapper, PxApiConnectorConfiguration pxApiConnectorConfiguration) {
+    @Autowired
+    List<Connector> getConnectors(
+            ObjectMapper mapper,
+            PxApiConnectorConfiguration pxApiConnectorConfiguration,
+            ConnectorsConfiguration connectorsConfiguration
+    ) {
 
         List<Connector> connectors = Lists.newArrayList();
         ServiceLoader<Connector> loader = ServiceLoader.load(Connector.class);
@@ -89,19 +101,23 @@ public class Application {
 
         connectors.add(getKompisConnector(mapper));
 
+
         // Setup timeout.
         connectors = connectors.stream()
                 .map(c -> TimeoutConnector.create(c, 100, TimeUnit.SECONDS))
                 .collect(Collectors.toList());
 
-        CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
-                .expireAfterAccess(1, TimeUnit.MINUTES)
-                .maximumSize(1000);
-
         // Wrap all connectors with cache.
-        connectors = connectors.stream()
-                .map(c -> CachedConnector.create(c, cacheBuilder))
-                .collect(Collectors.toList());
+        if (connectorsConfiguration.isCachingEnabled()) {
+            log.info("enabling connector caching");
+            CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
+                    .expireAfterAccess(1, TimeUnit.MINUTES)
+                    .maximumSize(1000);
+
+            connectors = connectors.stream()
+                    .map(c -> CachedConnector.create(c, cacheBuilder))
+                    .collect(Collectors.toList());
+        }
 
         return connectors;
     }

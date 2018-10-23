@@ -6,7 +6,7 @@
 
     <groupId>no.ssb.vtl</groupId>
     <artifactId>java-vtl-tools</artifactId>
-    <version>0.1.10-2</version>
+    <version>0.1.11</version>
 
     <name>Java VTL tools</name>
 
@@ -21,8 +21,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <oss.skipsign>true</oss.skipsign>
-        <vtlVersion>0.1.10-3</vtlVersion>
-        <vtlConnectorVersion>0.1.14</vtlConnectorVersion>
+        <vtlVersion>0.1.11</vtlVersion>
+        <vtlConnectorVersion>0.1.15</vtlConnectorVersion>
     </properties>
 
     <developers>
@@ -53,17 +53,6 @@
             </snapshots>
         </repository>
     </repositories>
-
-    <!--<distributionManagement>-->
-    <!--<repository>-->
-    <!--<id>ossrh</id>-->
-    <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-    <!--</repository>-->
-    <!--<snapshotRepository>-->
-    <!--<id>ossrh</id>-->
-    <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-    <!--</snapshotRepository>-->
-    <!--</distributionManagement>-->
 
     <scm>
         <connection>scm:git:git@github.com:statisticsnorway/java-vtl-tools</connection>
