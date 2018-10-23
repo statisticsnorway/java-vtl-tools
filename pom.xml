@@ -21,8 +21,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <oss.skipsign>true</oss.skipsign>
-        <vtlVersion>0.1.11-SNAPSHOT</vtlVersion>
-        <vtlConnectorVersion>0.1.16-SNAPSHOT</vtlConnectorVersion>
+        <vtlVersion>0.1.11</vtlVersion>
+        <vtlConnectorVersion>0.1.15</vtlConnectorVersion>
     </properties>
 
     <developers>
