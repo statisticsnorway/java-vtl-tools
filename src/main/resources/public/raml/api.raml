@@ -46,8 +46,40 @@ types:
     properties:
       datasets: Dataset[]
 
+/bindings:
+  description: execute and return the bindings
+  post:
+    body:
+      application/vtl:
+        type: string
+    responses:
+      200:
+        body:
+          application/json:
+
+/keywords:
+  description: returns the list of VTL keywords
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+
 /validate:
   description: validate the syntax of a VTL expression
+  post:
+    body:
+      application/vtl:
+        type: string
+    responses:
+      200:
+        body:
+          application/json:
+            type: SyntaxError[]
+      204:
+
+/check:
+  description: check a VTL expression. The expression is first validated and then evaluated
   post:
     body:
       application/vtl:

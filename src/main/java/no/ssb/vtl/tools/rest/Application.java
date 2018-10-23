@@ -37,6 +37,7 @@ import no.ssb.vtl.connectors.spring.converters.DatasetHttpMessageConverter;
 import no.ssb.vtl.connectors.utils.CachedConnector;
 import no.ssb.vtl.connectors.utils.RegexConnector;
 import no.ssb.vtl.connectors.utils.TimeoutConnector;
+import no.ssb.vtl.script.VTLScriptContext;
 import no.ssb.vtl.script.VTLScriptEngine;
 import no.ssb.vtl.tools.rest.configuration.ConnectorsConfiguration;
 import org.slf4j.Logger;
