@@ -130,7 +130,7 @@ public class Application {
         schrf.setTaskExecutor(new ConcurrentTaskExecutor());
 
         schrf.setConnectTimeout(200);
-        schrf.setReadTimeout(1000);
+        schrf.setReadTimeout(10000);
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
