@@ -6,7 +6,7 @@
 
     <groupId>no.ssb.vtl</groupId>
     <artifactId>java-vtl-tools</artifactId>
-    <version>0.1.11-1</version>
+    <version>0.1.11-2</version>
 
     <name>Java VTL tools</name>
 
@@ -21,7 +21,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <oss.skipsign>true</oss.skipsign>
-        <vtlVersion>0.1.11</vtlVersion>
+        <vtlVersion>0.1.12</vtlVersion>
         <vtlConnectorVersion>0.1.16</vtlConnectorVersion>
     </properties>
 

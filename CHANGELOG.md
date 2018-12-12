@@ -6,6 +6,10 @@
 
 * Configuration flag to disable/enable caching
 
+## 0.1.11-2 - 2018-12-12
+
+* Update VTL version to 0.1.12
+
 ## 0.1.10-1 - 2018-09-04
 
 ### Changed
