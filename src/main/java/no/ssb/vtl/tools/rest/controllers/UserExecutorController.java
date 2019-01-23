@@ -118,10 +118,6 @@ public class UserExecutorController {
         DataStructure structure = dataset.getDataStructure();
         Map<String, Object> map = Maps.newLinkedHashMap();
         Stream<DataPoint> stream = dataset.getData();
-        if (stream instanceof VtlStream) {
-            String plan = ((VtlStream) stream).printPlan();
-            System.out.println(plan);
-        }
         return () -> {
             return stream.map(dataPoints -> {
                 map.clear();
