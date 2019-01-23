@@ -83,12 +83,14 @@ public class DatasetRepresentation {
             componentRepresentation.setType(component.getValue().getType());
             structure.add(componentRepresentation);
         }
-        List<List<Object>> data = dataset.getData()
-                .map(tuple -> tuple.stream()
-                        .map(VTLObject::get).collect(Collectors.toList())
-                ).collect(Collectors.toList());
-        wrapper.setData(data);
-        return wrapper;
+        try (Stream<DataPoint> stream = dataset.getData()){
+            List<List<Object>> data = stream
+                    .map(tuple -> tuple.stream()
+                            .map(VTLObject::get).collect(Collectors.toList())
+                    ).collect(Collectors.toList());
+            wrapper.setData(data);
+            return wrapper;
+        }
     }
 
     public static Dataset convertToDataset(DatasetRepresentation dataset) {

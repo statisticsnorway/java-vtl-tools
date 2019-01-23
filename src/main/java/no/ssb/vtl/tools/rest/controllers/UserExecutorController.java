@@ -21,10 +21,12 @@ package no.ssb.vtl.tools.rest.controllers;
  */
 
 import com.google.common.collect.Maps;
+import no.ssb.vtl.model.DataPoint;
 import no.ssb.vtl.model.DataStructure;
 import no.ssb.vtl.model.Dataset;
 import no.ssb.vtl.model.VTLObject;
 import no.ssb.vtl.script.VTLScriptEngine;
+import no.ssb.vtl.script.operations.VtlStream;
 import no.ssb.vtl.tools.rest.representations.StructureRepresentation;
 import no.ssb.vtl.tools.rest.representations.ThrowableRepresentation;
 import org.springframework.http.MediaType;
@@ -44,6 +46,7 @@ import java.io.Reader;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -114,13 +117,20 @@ public class UserExecutorController {
         final Dataset dataset = (Dataset) bindings.get(id);
         DataStructure structure = dataset.getDataStructure();
         Map<String, Object> map = Maps.newLinkedHashMap();
-        return () -> dataset.getData().map(dataPoints -> {
-            map.clear();
-            Iterator<VTLObject> iterator = dataPoints.iterator();
-            for (String name : structure.keySet()) {
-                map.put(name, iterator.next().get());
-            }
-            return map;
-        }).iterator();
+        Stream<DataPoint> stream = dataset.getData();
+        if (stream instanceof VtlStream) {
+            String plan = ((VtlStream) stream).printPlan();
+            System.out.println(plan);
+        }
+        return () -> {
+            return stream.map(dataPoints -> {
+                map.clear();
+                Iterator<VTLObject> iterator = dataPoints.iterator();
+                for (String name : structure.keySet()) {
+                    map.put(name, iterator.next().get());
+                }
+                return map;
+            }).iterator();
+        };
     }
 }
