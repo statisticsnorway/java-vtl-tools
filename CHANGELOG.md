@@ -4,11 +4,31 @@
 
 ### Added
 
+### Changed
+
 * Configuration flag to disable/enable caching
+
+## 0.1.11-3 - 2019-03-05
+
+### Changed
+
+* Update URLs to internal SSB distribution repos
 
 ## 0.1.11-2 - 2018-12-12
 
 * Update VTL version to 0.1.12
+
+## 0.1.11-1 - 2018-10-23
+
+### Changed
+
+* Update VTL Connector version to 0.1.16
+
+## 0.1.11 - 2018-10-23
+
+### Changed
+
+* Configuration flag to disable/enable caching
 
 ## 0.1.10-1 - 2018-09-04
 
