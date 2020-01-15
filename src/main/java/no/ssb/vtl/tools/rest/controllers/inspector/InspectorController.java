@@ -31,6 +31,7 @@ import no.ssb.vtl.parser.VTLParser;
 import no.ssb.vtl.script.VTLScriptEngine;
 import no.ssb.vtl.script.VtlConfiguration;
 import no.ssb.vtl.script.error.ContextualRuntimeException;
+import no.ssb.vtl.script.error.VTLCompileException;
 import no.ssb.vtl.script.error.VTLScriptException;
 import no.ssb.vtl.script.operations.VtlStream;
 import no.ssb.vtl.tools.rest.representations.DatasetRepresentation;
@@ -115,7 +116,11 @@ public class InspectorController {
                 return last;
             }
         };
-        engine.eval(script, bindings);
+        try {
+            engine.eval(script, bindings);
+        } catch (ScriptException vce) {
+            // Ignore
+        }
 
         List<Object> assignments = bindings.values().stream()
                 .filter(ContextualAssignment.class::isInstance)

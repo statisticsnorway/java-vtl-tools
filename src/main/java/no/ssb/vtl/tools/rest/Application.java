@@ -35,9 +35,9 @@ import no.ssb.vtl.connectors.spring.converters.DataHttpConverter;
 import no.ssb.vtl.connectors.spring.converters.DataStructureHttpConverter;
 import no.ssb.vtl.connectors.spring.converters.DatasetHttpMessageConverter;
 import no.ssb.vtl.connectors.utils.CachedConnector;
+import no.ssb.vtl.connectors.utils.PredicateConnector;
 import no.ssb.vtl.connectors.utils.RegexConnector;
 import no.ssb.vtl.connectors.utils.TimeoutConnector;
-import no.ssb.vtl.script.VTLScriptContext;
 import no.ssb.vtl.script.VTLScriptEngine;
 import no.ssb.vtl.tools.rest.configuration.ConnectorsConfiguration;
 import org.slf4j.Logger;
@@ -55,7 +55,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.script.Bindings;
-import java.util.Collections;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutorService;
@@ -100,9 +99,8 @@ public class Application {
             connectors.add(new PxApiConnector(pxApiConnectorConfiguration.getBaseUrls()));
         }
 
-        connectors.add(getKompisConnector(mapper));
-
-
+        connectors.add(PredicateConnector.create(getKompisConnector(mapper), s -> s.startsWith("http")));
+        
         // Setup timeout.
         connectors = connectors.stream()
                 .map(c -> TimeoutConnector.create(c, 100, TimeUnit.SECONDS))
