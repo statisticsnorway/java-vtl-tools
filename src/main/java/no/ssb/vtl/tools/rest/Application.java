@@ -100,7 +100,7 @@ public class Application {
         }
 
         connectors.add(PredicateConnector.create(getKompisConnector(mapper), s -> s.startsWith("http")));
-        
+
         // Setup timeout.
         connectors = connectors.stream()
                 .map(c -> TimeoutConnector.create(c, 100, TimeUnit.SECONDS))
