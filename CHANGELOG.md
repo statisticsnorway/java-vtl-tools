@@ -6,6 +6,8 @@
 
 ### Changed
 
+* Upgrade to Spring Boot 2.1.8.RELEASE
+
 ## 0.1.11-3 - 2019-03-05
 
 ### Changed
