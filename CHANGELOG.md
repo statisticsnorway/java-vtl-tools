@@ -6,6 +6,12 @@
 
 ### Changed
 
+## 0.1.12 - 2021-04-07
+
+### Changed
+
+* Update VTL version to 0.1.12
+* Update VTL Connector version to 0.1.17
 * Upgrade to Spring Boot 2.1.8.RELEASE
 
 ## 0.1.11-3 - 2019-03-05
