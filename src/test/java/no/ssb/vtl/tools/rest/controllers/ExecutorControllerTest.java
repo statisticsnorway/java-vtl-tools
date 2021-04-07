@@ -20,8 +20,10 @@ package no.ssb.vtl.tools.rest.controllers;
  * =========================LICENSE_END==================================
  */
 
-import no.ssb.vtl.connectors.PxApiConnector;
+import no.ssb.vtl.connectors.Connector;
+import no.ssb.vtl.connectors.ConnectorException;
 import no.ssb.vtl.model.Component;
+import no.ssb.vtl.model.Dataset;
 import no.ssb.vtl.model.StaticDataset;
 import no.ssb.vtl.script.VTLScriptEngine;
 import no.ssb.vtl.tools.rest.representations.ExecutionRepresentation;
@@ -33,54 +35,72 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.tuple;
-import static org.mockito.Mockito.*;
+
 
 public class ExecutorControllerTest {
-    
+
     private ExecutorController controller;
-    
+
     @Before
-    public void setUp() throws Exception {
-        PxApiConnector connector = mock(PxApiConnector.class);
-        when(connector.canHandle(any())).thenReturn(true);
-        when(connector.getDataset("a")).thenReturn(StaticDataset.create()
-                .addComponent("region", Component.Role.IDENTIFIER, String.class)
-                .addComponent("dividend", Component.Role.MEASURE, Double.class)
-                .addComponent("dividend2", Component.Role.MEASURE, Double.class)
-                .addPoints("0101", 10.0, 90.0)
-                .addPoints("0102", 20.0, 80.0)
-                .addPoints("0218", 30.0, 70.0)
-                .addPoints("0219", 40.0, 60.0)
-                .build());
-        when(connector.getDataset("b")).thenReturn(StaticDataset.create()
-                .addComponent("region", Component.Role.IDENTIFIER, String.class)
-                .addComponent("divisor", Component.Role.MEASURE, Double.class)
-                .addPoints("0101", 4.0)
-                .addPoints("0102", 3.0)
-                .addPoints("0218", 2.0)
-                .addPoints("0219", 1.0)
-                .build());
+    public void setUp() {
+        Connector connector = new Connector() {
+            @Override
+            public boolean canHandle(String identifier) {
+                return true;
+            }
+
+            @Override
+            public Dataset getDataset(String identifier) throws ConnectorException {
+                if ("a".equals(identifier)) {
+                    return StaticDataset.create()
+                            .addComponent("region", Component.Role.IDENTIFIER, String.class)
+                            .addComponent("dividend", Component.Role.MEASURE, Double.class)
+                            .addComponent("dividend2", Component.Role.MEASURE, Double.class)
+                            .addPoints("0101", 10.0, 90.0)
+                            .addPoints("0102", 20.0, 80.0)
+                            .addPoints("0218", 30.0, 70.0)
+                            .addPoints("0219", 40.0, 60.0)
+                            .build();
+                }
+                if ("b".equals(identifier)) {
+                    return StaticDataset.create()
+                            .addComponent("region", Component.Role.IDENTIFIER, String.class)
+                            .addComponent("divisor", Component.Role.MEASURE, Double.class)
+                            .addPoints("0101", 4.0)
+                            .addPoints("0102", 3.0)
+                            .addPoints("0218", 2.0)
+                            .addPoints("0219", 1.0)
+                            .build();
+                }
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public Dataset putDataset(String identifier, Dataset dataset) throws ConnectorException {
+                throw new UnsupportedOperationException();
+            }
+        };
         controller = new ExecutorController(new VTLScriptEngine(connector));
     }
-    
+
     @Test
     public void customAggregateRatioExecution() throws Exception {
-        
+
         ExecutionRepresentation params = new ExecutionRepresentation();
         String expression =
                 "a := get(\"a\") \n" +
-                "b := get(\"b\") \n" +
-                "fa := [a]{filter region = \"0101\" or region = \"0219\"} \n" +
-                "fb := [b]{filter region = \"0101\" or region = \"0219\"} \n" +
-                "sa := sum(fa) along region \n" +
-                "sb := sum(fb) along region \n" +
-                "t1 := [sa]{identifier region := \"ekg\"} \n" +
-                "t2 := [sb]{identifier region := \"ekg\"} \n" +
-                "res := [t1, t2]{ var := t1.dividend / t2.divisor, var2 := t1.dividend2 / t2.divisor, keep var, var2}";
+                        "b := get(\"b\") \n" +
+                        "fa := [a]{filter region = \"0101\" or region = \"0219\"} \n" +
+                        "fb := [b]{filter region = \"0101\" or region = \"0219\"} \n" +
+                        "sa := sum(fa) along region \n" +
+                        "sb := sum(fb) along region \n" +
+                        "t1 := [sa]{identifier region := \"ekg\"} \n" +
+                        "t2 := [sb]{identifier region := \"ekg\"} \n" +
+                        "res := [t1, t2]{ var := t1.dividend / t2.divisor, var2 := t1.dividend2 / t2.divisor, keep var, var2}";
         params.setExpression(expression);
 
         ResultRepresentation result = (ResultRepresentation) controller.execute(params);
-    
+
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(result.getResultDataset().getStructure())
                 .extracting("name", "role", "type")

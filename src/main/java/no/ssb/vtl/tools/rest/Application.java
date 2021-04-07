@@ -35,9 +35,9 @@ import no.ssb.vtl.connectors.spring.converters.DataHttpConverter;
 import no.ssb.vtl.connectors.spring.converters.DataStructureHttpConverter;
 import no.ssb.vtl.connectors.spring.converters.DatasetHttpMessageConverter;
 import no.ssb.vtl.connectors.utils.CachedConnector;
+import no.ssb.vtl.connectors.utils.PredicateConnector;
 import no.ssb.vtl.connectors.utils.RegexConnector;
 import no.ssb.vtl.connectors.utils.TimeoutConnector;
-import no.ssb.vtl.script.VTLScriptContext;
 import no.ssb.vtl.script.VTLScriptEngine;
 import no.ssb.vtl.tools.rest.configuration.ConnectorsConfiguration;
 import org.slf4j.Logger;
@@ -99,8 +99,7 @@ public class Application {
             connectors.add(new PxApiConnector(pxApiConnectorConfiguration.getBaseUrls()));
         }
 
-        connectors.add(getKompisConnector(mapper));
-
+        connectors.add(PredicateConnector.create(getKompisConnector(mapper), s -> s.startsWith("http")));
 
         // Setup timeout.
         connectors = connectors.stream()
@@ -130,7 +129,7 @@ public class Application {
         schrf.setTaskExecutor(new ConcurrentTaskExecutor());
 
         schrf.setConnectTimeout(200);
-        schrf.setReadTimeout(1000);
+        schrf.setReadTimeout(10000);
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
