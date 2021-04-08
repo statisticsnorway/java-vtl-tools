@@ -14,3 +14,7 @@ connectors:
   # Enable or disable connector caching.
   caching: true
 
+spring:
+  boot:
+    admin:
+      context-path: instances

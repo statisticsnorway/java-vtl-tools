@@ -6,6 +6,12 @@
 
 ### Changed
 
+## 0.1.13 - 2021-04-08
+
+* Fixed Spring Boot 2.1.8 and Java 11 dependencies
+
+### Changed
+
 ## 0.1.12 - 2021-04-07
 
 ### Changed
