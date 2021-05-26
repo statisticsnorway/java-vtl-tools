@@ -26,7 +26,7 @@ import no.ssb.vtl.model.DataStructure;
 import no.ssb.vtl.model.Dataset;
 import no.ssb.vtl.model.VTLObject;
 import no.ssb.vtl.script.VTLScriptEngine;
-import no.ssb.vtl.script.operations.VtlStream;
+//import no.ssb.vtl.script.operations.VtlStream;
 import no.ssb.vtl.tools.rest.representations.StructureRepresentation;
 import no.ssb.vtl.tools.rest.representations.ThrowableRepresentation;
 import org.springframework.http.MediaType;

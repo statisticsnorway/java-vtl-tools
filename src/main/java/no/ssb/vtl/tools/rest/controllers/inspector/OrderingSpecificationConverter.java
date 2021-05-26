@@ -24,14 +24,19 @@ package no.ssb.vtl.tools.rest.controllers.inspector;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
-import no.ssb.vtl.model.Ordering;
-import no.ssb.vtl.model.OrderingSpecification;
-import org.springframework.core.convert.converter.Converter;
+//import no.ssb.vtl.model.Ordering;
+//import no.ssb.vtl.model.OrderingSpecification;
+//import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+public class OrderingSpecificationConverter {}
+/*
+
+TODO: Requires Java VTL 0.1.13
 
 @Component
 public class OrderingSpecificationConverter implements Converter<String, OrderingSpecification> {
@@ -91,3 +96,4 @@ public class OrderingSpecificationConverter implements Converter<String, Orderin
     }
 
 }
+ */
