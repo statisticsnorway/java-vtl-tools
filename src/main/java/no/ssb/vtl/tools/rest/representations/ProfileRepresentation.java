@@ -22,6 +22,10 @@ package no.ssb.vtl.tools.rest.representations;
  *
  */
 
+public class ProfileRepresentation {}
+
+/*
+TODO: Requires Java VTL 0.1.13
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
@@ -145,6 +149,5 @@ public class ProfileRepresentation {
     public Long getCells() {
         return stream.getStatistics().getCells().count();
     }
-
-
 }
+ */

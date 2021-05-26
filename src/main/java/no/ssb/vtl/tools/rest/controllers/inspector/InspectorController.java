@@ -20,20 +20,20 @@ package no.ssb.vtl.tools.rest.controllers.inspector;
  * =========================LICENSE_END==================================
  */
 
-import com.netflix.spectator.api.DefaultRegistry;
-import com.netflix.spectator.api.Spectator;
+//import com.netflix.spectator.api.DefaultRegistry;
+//import com.netflix.spectator.api.Spectator;
 import no.ssb.vtl.connectors.Connector;
 import no.ssb.vtl.model.DataPoint;
 import no.ssb.vtl.model.Dataset;
-import no.ssb.vtl.model.OrderingSpecification;
-import no.ssb.vtl.model.VtlOrdering;
+//import no.ssb.vtl.model.OrderingSpecification;
+//import no.ssb.vtl.model.VtlOrdering;
 import no.ssb.vtl.parser.VTLParser;
 import no.ssb.vtl.script.VTLScriptEngine;
-import no.ssb.vtl.script.VtlConfiguration;
+//import no.ssb.vtl.script.VtlConfiguration;
 import no.ssb.vtl.script.error.ContextualRuntimeException;
 import no.ssb.vtl.script.error.VTLCompileException;
 import no.ssb.vtl.script.error.VTLScriptException;
-import no.ssb.vtl.script.operations.VtlStream;
+//import no.ssb.vtl.script.operations.VtlStream;
 import no.ssb.vtl.tools.rest.representations.DatasetRepresentation;
 import no.ssb.vtl.tools.rest.representations.PlanRepresentation;
 import no.ssb.vtl.tools.rest.representations.ProfileRepresentation;
@@ -131,7 +131,9 @@ public class InspectorController {
 
     /**
      * Profile the symbol
+     * TODO: Requires Java VTL 0.1.13
      */
+    /*
     @RequestMapping(
             method = RequestMethod.GET,
             path = "/profile/{symbol}",
@@ -182,10 +184,13 @@ public class InspectorController {
             config.disableProfiling();
         }
     }
+*/
 
     /**
      * Display the execution plan for a symbol.
+     * TODO: Requires Java VTL 0.1.13
      */
+    /*
     @RequestMapping(
             method = RequestMethod.GET,
             path = "/explain/{symbol}",
@@ -221,7 +226,7 @@ public class InspectorController {
             return ResponseEntity.notFound().build();
         }
     }
-
+*/
     /**
      * Inspect the content of a symbol.
      */
