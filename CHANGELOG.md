@@ -6,6 +6,10 @@
 
 ### Changed
 
+## 0.1.14 - 2021-05-26
+
+* Downgraded to Java VTL 0.1.12 and Java VTL Connectors 0.1.16 due to filter bugs in complex VTL expressions.
+
 ## 0.1.13 - 2021-04-08
 
 * Fixed Spring Boot 2.1.8 and Java 11 dependencies
@@ -16,7 +20,7 @@
 
 ### Changed
 
-* Update VTL version to 0.1.12
+* Update VTL version to 0.1.13
 * Update VTL Connector version to 0.1.17
 * Upgrade to Spring Boot 2.1.8.RELEASE
 
